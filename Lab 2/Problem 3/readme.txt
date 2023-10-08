@@ -1,0 +1,1 @@
+the extension replaces text to say "Subscribe to my youtube channel", replaces images to subscribe buttons and makes every link direct you to my youtube channel page.
