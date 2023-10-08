@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.grid {
+    display: flex;
+    border: 1px solid black;
+}
+
+.cell {
+    flex: 1;
+    border: 1px solid black;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 1;
+}
+
+.sub-cell {
+    flex: 1;
+    border: 1px solid black;
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    height: 10vh;
+}
+
+@media (max-width: 960px) {
+    .grid {
+        flex-wrap: wrap;
+    }
+    .cell {
+        width: 50%;
+        flex-basis: 50%; /* Adjust the flex basis to 50% to fit two cells in a row */
+        margin-top: 0; /* Remove the margin to bring the 3rd and 4th cells to the same row */
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        flex-direction: column;
+    }
+    .cell {
+        width: 100%;
+    }
+}
