@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github User Info</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Github User Information</h1>
+        <div class="search-container">
+            <input type="text" id="username" placeholder="Enter a Github username">
+            <button id="searchBtn">Search</button>
+        </div>
+        <div class="user-info-container">
+            <div class="user-info">
+                <img id="avatar">
+                <div class="user-details">
+                    <h2 id="name"></h2>
+                    <p id="login"></p>
+                    <p id="email"></p>
+                    <p id="location"></p>
+                    <p id="gists"></p>
+                </div>
+            </div>
+            <div class="repos-container">
+                <h2>Repositories:</h2>
+                <table id="repos">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
