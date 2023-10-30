@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phone Directory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Phone Directory</h1>
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="text" id="mobile" placeholder="Mobile" required>
+    <input type="email" id="email" placeholder="Email" required>
+    
+    <button onclick="addContact()">Add Contact</button>
+    <div id="error">ERROR: Please make sure to add a name, valid 10 digit number and an email address.</div>
+    <br><br>
+    <input type="text" id="search" placeholder="Search by Mobile" oninput="filterContacts()">
+    <br><br>
+    <div id="noResult">No matching contacts found.</div>
+    <table>
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="contactTable">
+        </tbody>
+    </table>
+    <script src="app.js"></script>
+</body>
+</html>
