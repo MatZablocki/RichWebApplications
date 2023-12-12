@@ -1,3 +1,8 @@
+.dark-mode {
+    background-color: #333; /* Use your preferred dark mode background color */
+    color: #fff; /* Use your preferred dark mode text color */
+  }
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;

@@ -6,6 +6,7 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [noteText, setNoteText] = useState('');
   const [noteColor, setNoteColor] = useState('yellow');
+  const [darkMode, setDarkMode] = useState(false);
 
   const addNote = async () => {
     if (noteText.trim() === '') {
@@ -44,8 +45,18 @@ function App() {
     setNotes(updatedNotes);
   };
 
+  const copyImageUrl = (imageUrl) => {
+    navigator.clipboard.writeText(imageUrl);
+    alert('Image URL copied to clipboard!');
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.style.backgroundColor = darkMode ? '#fff' : '#333'; // Adjust colors as needed
+  };
+
   return (
-    <div className="container">
+    <div className={`container ${darkMode ? 'dark-mode' : ''}`}>
       <div className="note-form">
         <input
           type="text"
@@ -61,16 +72,26 @@ function App() {
           <option value="purple">Purple</option>
         </select>
         <button onClick={addNote}>Add</button>
+        <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
       </div>
 
       <div className="notes">
         {notes.map((note, index) => (
-          <div key={index} className="note" style={{ backgroundColor: note.color }}>
-            <div className="note-text">{note.text}</div>
+          <div
+            key={index}
+            className={`note ${darkMode ? 'dark-mode' : ''}`}
+            style={{ backgroundColor: note.color }}
+          >
+            <div className="note-text" onClick={() => editNoteText(index)}>
+              {note.text}
+            </div>
             {note.catImage && <img src={note.catImage} alt="Cat" className="cat-image" />}
             <div className="note-buttons">
               <button onClick={() => editNoteText(index)}>Edit</button>
               <button onClick={() => deleteNote(index)}>Delete</button>
+              {note.catImage && (
+                <button onClick={() => copyImageUrl(note.catImage)}>Copy Image URL</button>
+              )}
             </div>
           </div>
         ))}

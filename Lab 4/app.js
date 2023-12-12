@@ -1,56 +1,82 @@
-const noteText = document.getElementById('note-text');
-const noteColor = document.getElementById('note-color');
-const addButton = document.getElementById('add-button');
-const notesContainer = document.querySelector('.notes');
+import React, { useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
-addButton.addEventListener('click', addNote);
+function App() {
+  const [notes, setNotes] = useState([]);
+  const [noteText, setNoteText] = useState('');
+  const [noteColor, setNoteColor] = useState('yellow');
 
-function addNote() {
-    const text = noteText.value.trim();
-    const color = noteColor.value;
-
-    if (text === '') {
-        return;
+  const addNote = async () => {
+    if (noteText.trim() === '') {
+      return;
     }
 
-    const note = document.createElement('div');
-    note.className = 'note';
-    note.style.backgroundColor = color;
+    try {
+      const response = await axios.get('https://api.thedogapi.com/v1/images/search');
+      const catImage = response.data[0].url;
 
-    const noteTextElement = document.createElement('div');
-    noteTextElement.className = 'note-text';
-    noteTextElement.textContent = text;
+      const newNote = {
+        text: noteText,
+        color: noteColor,
+        catImage: catImage,
+      };
 
-    const editButton = createButton('Edit', () => {
-        editNoteText(noteTextElement);
-    });
+      setNotes([...notes, newNote]);
+      setNoteText('');
+    } catch (error) {
+      console.error('Error fetching cat image:', error);
+    }
+  };
 
-    const deleteButton = createButton('Delete', () => {
-        notesContainer.removeChild(note);
-    });
-
-    const noteButtons = document.createElement('div');
-    noteButtons.className = 'note-buttons';
-    noteButtons.appendChild(editButton);
-    noteButtons.appendChild(deleteButton);
-
-    note.appendChild(noteTextElement);
-    note.appendChild(noteButtons);
-    notesContainer.appendChild(note);
-
-    noteText.value = '';
-}
-
-function createButton(text, onClick) {
-    const button = document.createElement('button');
-    button.textContent = text;
-    button.addEventListener('click', onClick);
-    return button;
-}
-
-function editNoteText(noteTextElement) {
-    const newText = prompt('Edit the note:', noteTextElement.textContent);
+  const editNoteText = (index) => {
+    const newText = prompt('Edit the note:', notes[index].text);
     if (newText !== null) {
-        noteTextElement.textContent = newText;
+      const updatedNotes = [...notes];
+      updatedNotes[index].text = newText;
+      setNotes(updatedNotes);
     }
+  };
+
+  const deleteNote = (index) => {
+    const updatedNotes = [...notes];
+    updatedNotes.splice(index, 1);
+    setNotes(updatedNotes);
+  };
+
+  return (
+    <div className="container">
+      <div className="note-form">
+        <input
+          type="text"
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+          placeholder="Enter your note"
+        />
+        <select value={noteColor} onChange={(e) => setNoteColor(e.target.value)}>
+          <option value="yellow">Yellow</option>
+          <option value="pink">Pink</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="purple">Purple</option>
+        </select>
+        <button onClick={addNote}>Add</button>
+      </div>
+
+      <div className="notes">
+        {notes.map((note, index) => (
+          <div key={index} className="note" style={{ backgroundColor: note.color }}>
+            <div className="note-text">{note.text}</div>
+            {note.catImage && <img src={note.catImage} alt="Cat" className="cat-image" />}
+            <div className="note-buttons">
+              <button onClick={() => editNoteText(index)}>Edit</button>
+              <button onClick={() => deleteNote(index)}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+export default App;
